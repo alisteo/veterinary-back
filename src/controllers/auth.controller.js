@@ -21,6 +21,7 @@ export const signUp = async (req, res, next) => {
         identificacion,
       },
     });
+    delete user.password;
 
     res
       .status(201)

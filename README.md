@@ -4,13 +4,18 @@ This is a repository intended to serve as a starting point if you want to bootst
 
 ## Running the app
 
+- Create `.env` file based on `.example.env`
+
 ```
 # install dependencies
-yarn
+npm i
 
-# run in dev mode on port 3000
-yarn dev
+# run migrations
+npmx prisma migrate dev
 
-# run in prod mode on port 3000
-yarn start
+# run in dev mode on port 3300
+npm run dev
+
+# run in prod mode on port 3300
+npm build
 ```
