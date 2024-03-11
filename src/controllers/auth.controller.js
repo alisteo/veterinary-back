@@ -39,8 +39,15 @@ export const login = async (req, res, next) => {
         email,
       },
     });
-    const matchPass = await bcryptjs.compare(password, user.password);
-    if (!user || !matchPass)
+    if (!user)
+      return next(
+        createError(
+          401,
+          'Hubo un problema al iniciar sesión. Verifique su correo electrónico y contraseña o cree una cuenta.'
+        )
+      );
+    const matchPass = await bcryptjs.compare(password, user?.password);
+    if (!matchPass)
       return next(
         createError(
           401,
