@@ -17,7 +17,7 @@ datasource db {
 model Mascota {
   id Int @id @default(autoincrement())
 
-  nombre             String
+  nombre_mascota     String
   codigo_chip        String   @unique
   lugar_implantacion String
   fecha_implantacion DateTime
@@ -28,9 +28,9 @@ model Mascota {
   ubicacion          String
   estado             Estado
 
-  Tutor         Tutor?       @relation(fields: [tutorId], references: [id])
+  Tutor         Tutor?       @relation(fields: [tutorId], references: [id], onDelete: Cascade)
   tutorId       Int?
-  Responsable   Responsable? @relation(fields: [responsableId], references: [id])
+  Responsable   Responsable? @relation(fields: [responsableId], references: [id], onDelete: Cascade)
   responsableId Int?
 }
 
@@ -72,10 +72,11 @@ model User {
 
 // propietario q reutiliza modelo user
 model Tutor {
-  id            Int    @id @default(autoincrement())
-  observaciones String
+  id Int @id @default(autoincrement())
 
-  user     User      @relation(fields: [userId], references: [id])
+  observaciones String?
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   mascotas Mascota[]
   userId   Int
 }
@@ -86,7 +87,7 @@ model Responsable {
   no_registro  String
   especialidad String
 
-  user     User      @relation(fields: [userId], references: [id])
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   mascotas Mascota[]
   userId   Int
 }

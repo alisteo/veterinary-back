@@ -29,8 +29,36 @@ export const signUpRules = () => [
 
   body('email').custom(email => isAlreadyRegistered(email, 'user')),
   validate,
+];
 
- 
+export const createVeterinarianRules = () => [
+  ...signUpRules(),
+  body('especialidad', 'La especialidad es obligatoria').notEmpty(),
+  body('no_registro', 'El número de registro es obligatorio').notEmpty(),
+  validate,
+];
+
+export const createPetRules = () => [
+  body('nombre_mascota', 'El nombre es obligatorio').notEmpty(),
+  body('codigo_chip', 'El código de chip es obligatorio').notEmpty(),
+  body(
+    'lugar_implantacion',
+    'El lugar de implantación es obligatorio'
+  ).notEmpty(),
+  body(
+    'fecha_implantacion',
+    'La fecha de implantación es obligatoria'
+  ).notEmpty(),
+  body('especie', 'La especie es obligatoria').notEmpty(),
+  body('raza', 'La raza es obligatoria').notEmpty(),
+  body('pedigree', 'El pedigree es obligatorio').notEmpty(),
+  body('sexo', 'El sexo es obligatorio').notEmpty(),
+  body('ubicacion', 'La ubicación es obligatoria').notEmpty(),
+  body('estado', 'El estado es obligatorio').notEmpty(),
+  // body('tutorId', 'El tutor es obligatorio').notEmpty(),
+  validate,
+
+  signUpRules(),
 ];
 
 export const loginRules = () => [...emailPassRules(), validate];

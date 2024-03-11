@@ -4,12 +4,7 @@ export const isAlreadyRegistered = async (query, collection) => {
   let model;
 
   const checkInCollection = () => {
-    if (model)
-      throw new Error(
-        `The ${collection}${
-          query.includes('@') ? "'s email" : ' username'
-        } is already registered!`
-      );
+    if (model) throw new Error('El email ya está registrado!');
   };
 
   switch (collection) {

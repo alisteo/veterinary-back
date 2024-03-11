@@ -15,11 +15,6 @@ export const protectWithJwt = async (req, res, next) => {
       where: {
         id,
       },
-      select: {
-        username: true,
-        email: true,
-        isAdmin: true,
-      },
     });
     if (!user) return next(createError(401, 'Invalid token!'));
 

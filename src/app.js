@@ -5,7 +5,7 @@ import {
   notFound,
   setupMiddlewares,
 } from './middlewares/index.js';
-import { authRouter } from './routes/index.js';
+import { authRouter, petsRouter, usersRouter } from './routes/index.js';
 
 console.clear();
 // Initializations
@@ -16,6 +16,8 @@ setupMiddlewares(app);
 
 // Router
 app.use('/auth', authRouter);
+app.use('/pets', petsRouter);
+app.use('/users', usersRouter);
 
 app.use(notFound);
 app.use(errorHandler);
