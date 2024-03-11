@@ -19,6 +19,7 @@ export const signUp = async (req, res, next) => {
         telefono,
         nombre,
         identificacion,
+        // es_admin: true,
       },
     });
     delete user.password;
@@ -80,7 +81,7 @@ export const login = async (req, res, next) => {
     // Gen JWT
     const token = await genJWT(user.id);
 
-    res.cookie('access_token', token, { httpOnly: true }).status(200).json({
+    res.status(200).json({
       ok: true,
       message: 'Inicio de sesión exitoso!',
       user: userBody,
