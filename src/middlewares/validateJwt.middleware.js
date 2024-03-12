@@ -42,3 +42,16 @@ export const verifyAdmin = (req, _res, next) => {
 
   return next(createError(403, 'No tienes permisos para realizar esta acción'));
 };
+
+export const isAdminOrVeterinarian = (req, _res, next) => {
+  if (!req.authenticatedUser.id)
+    return next(
+      createError(403, 'No tienes permisos para realizar esta acción')
+    );
+
+  const { es_admin, es_veterinario } = req.authenticatedUser;
+
+  if (es_admin || es_veterinario) return next();
+
+  return next(createError(403, 'No tienes permisos para realizar esta acción'));
+};

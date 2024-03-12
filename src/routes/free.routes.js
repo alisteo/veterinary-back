@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { getPets } from '../controllers/pets.controller.js';
+import { getPetsFree } from '../controllers/free.controller.js';
 
 const router = Router();
 
-router.route('/pets').get(getPets);
+router.route('/pets').get(getPetsFree);
 
 export default router;

@@ -58,7 +58,7 @@ export const createPetRules = () => [
   // body('tutorId', 'El tutor es obligatorio').notEmpty(),
   validate,
 
-  signUpRules(),
+  // signUpRules(),
 ];
 
 export const loginRules = () => [...emailPassRules(), validate];
