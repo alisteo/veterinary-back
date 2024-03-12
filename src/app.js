@@ -10,6 +10,7 @@ import {
   freeRouter,
   pdfsRouter,
   petsRouter,
+  tutorsRouter,
   usersRouter,
   veterinariansRouter,
 } from './routes/index.js';
@@ -33,6 +34,7 @@ app.use('/users', usersRouter);
 app.use('/free', freeRouter);
 app.use('/pdfs', pdfsRouter);
 app.use('/veterinarians', veterinariansRouter);
+app.use('/tutors', tutorsRouter);
 
 app.use(notFound);
 app.use(errorHandler);
