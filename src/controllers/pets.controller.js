@@ -142,3 +142,95 @@ export const createPet = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updatePet = async (req, res, next) => {
+  const { id } = req.params;
+  const {
+    nombre_mascota,
+    codigo_chip,
+    lugar_implantacion,
+    fecha_implantacion,
+    especie,
+    raza,
+    pedigree,
+    sexo,
+    ubicacion,
+    estado,
+    tutorId,
+  } = req.body;
+
+  try {
+    // upd tutor info
+    const tutor = await prisma.tutor.findUnique({
+      where: {
+        id: tutorId,
+      },
+    });
+    if (!tutor) {
+      return res
+        .status(404)
+        .json({ ok: false, message: 'Tutor no encontrado' });
+    }
+    const userTutor = await prisma.user.findUnique({
+      where: {
+        id: tutor.userId,
+      },
+    });
+    if (!userTutor) {
+      return res
+        .status(404)
+        .json({ ok: false, message: 'Usuario tutor no encontrado' });
+    }
+
+    const updateUser = prisma.user.update({
+      where: {
+        id: userTutor.id,
+      },
+      data: {
+        email: req.body.email,
+        direccion: req.body.direccion,
+        telefono: req.body.telefono,
+        nombre: req.body.nombre,
+        identificacion: req.body.identificacion,
+      },
+    });
+
+    const updateTutor = prisma.tutor.update({
+      where: {
+        id: tutorId,
+      },
+      data: {
+        observaciones: req.body.observaciones || '',
+      },
+    });
+
+    const updatePet = prisma.mascota.update({
+      where: {
+        id: +id,
+      },
+      data: {
+        nombre_mascota,
+        codigo_chip,
+        lugar_implantacion,
+        fecha_implantacion,
+        especie,
+        raza,
+        pedigree,
+        sexo,
+        ubicacion,
+        estado,
+      },
+    });
+
+    // eslint-disable-next-line no-unused-vars
+    const [_, __, pet] = await Promise.all([
+      updateUser,
+      updateTutor,
+      updatePet,
+    ]);
+
+    res.status(200).json({ ok: true, pet });
+  } catch (error) {
+    next(error);
+  }
+};
