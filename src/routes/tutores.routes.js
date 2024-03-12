@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import {
   getTutor,
-  getTutors,
+  getTutores,
   updateTutor,
 } from '../controllers/tutores.controller.js';
 import { signUpTutor } from '../controllers/users.controller.js';
@@ -15,7 +15,7 @@ const router = Router();
 
 router
   .route('/')
-  .get([protectWithJwt, verifyAdmin], getTutors)
+  .get([protectWithJwt, verifyAdmin], getTutores)
   .post([protectWithJwt, verifyAdmin], signUpTutor);
 
 router

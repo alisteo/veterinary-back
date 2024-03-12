@@ -72,10 +72,7 @@ export const getTutor = async (req, res, next) => {
       });
     }
 
-    res.status(200).json({
-      ok: true,
-      data: tutor,
-    });
+    res.status(200).json(tutor);
   } catch (error) {
     next(error);
   }
