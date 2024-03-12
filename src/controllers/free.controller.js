@@ -55,3 +55,60 @@ export const getPetsFree = async (req, res, next) => {
     next(error);
   }
 };
+
+export const searchPets = async (req, res, next) => {
+  try {
+    const searchTerm = req.query.search;
+
+    const pets = await prisma.mascota.findMany({
+      where: {
+        OR: [
+          {
+            nombre_mascota: {
+              contains: searchTerm,
+            },
+          },
+          {
+            codigo_chip: {
+              contains: searchTerm,
+            },
+          },
+          {
+            Responsable: {
+              user: {
+                nombre: {
+                  contains: searchTerm,
+                },
+              },
+            },
+          },
+          {
+            Tutor: {
+              user: {
+                nombre: {
+                  contains: searchTerm,
+                },
+              },
+            },
+          },
+        ],
+      },
+      include: {
+        Responsable: {
+          include: {
+            user: true,
+          },
+        },
+        Tutor: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    res.status(200).json({ ok: true, pets });
+  } catch (error) {
+    next(error);
+  }
+};
