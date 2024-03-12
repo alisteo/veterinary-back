@@ -11,6 +11,7 @@ import {
   pdfsRouter,
   petsRouter,
   usersRouter,
+  veterinariansRouter,
 } from './routes/index.js';
 
 console.clear();
@@ -26,6 +27,7 @@ app.use('/pets', petsRouter);
 app.use('/users', usersRouter);
 app.use('/free', freeRouter);
 app.use('/pdfs', pdfsRouter);
+app.use('/veterinarians', veterinariansRouter);
 
 app.use(notFound);
 app.use(errorHandler);

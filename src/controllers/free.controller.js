@@ -2,8 +2,8 @@ import { prisma } from '../db/mysql/index.js';
 
 export const getPetsFree = async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page) || 1; // La página actual, por defecto es 1
-    const pageSize = parseInt(req.query.pageSize) || 10; // El número de registros por página, por defecto es 10
+    const page = parseInt(req.query.page) || 1; 
+    const pageSize = parseInt(req.query.pageSize) || 10; 
 
     const pets = await prisma.mascota.findMany({
       skip: (page - 1) * pageSize,
@@ -59,8 +59,8 @@ export const getPetsFree = async (req, res, next) => {
 export const searchPets = async (req, res, next) => {
   try {
     const searchTerm = req.query.search;
-    const page = parseInt(req.query.page) || 1; // La página actual, por defecto es 1
-    const pageSize = parseInt(req.query.pageSize) || 10; // El número de registros por página, por defecto es 10
+    const page = parseInt(req.query.page) || 1; 
+    const pageSize = parseInt(req.query.pageSize) || 10; 
 
     const pets = await prisma.mascota.findMany({
       where: {

@@ -3,5 +3,13 @@ import freeRouter from './free.routes.js';
 import pdfsRouter from './pdfs.routes.js';
 import petsRouter from './pets.routes.js';
 import usersRouter from './users.routes.js';
+import veterinariansRouter from './veterinarios.routes.js';
 
-export { authRouter, freeRouter, pdfsRouter, petsRouter, usersRouter };
+export {
+  authRouter,
+  freeRouter,
+  pdfsRouter,
+  petsRouter,
+  usersRouter,
+  veterinariansRouter,
+};

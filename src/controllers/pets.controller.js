@@ -4,8 +4,8 @@ import { prisma } from '../db/mysql/index.js';
 
 export const getPets = async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page) || 1; // La página actual, por defecto es 1
-    const limit = parseInt(req.query.limit) || 10; // El número de registros por página, por defecto es 10
+    const page = parseInt(req.query.page) || 1; 
+    const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
     const pets = await prisma.mascota.findMany({
@@ -13,8 +13,8 @@ export const getPets = async (req, res, next) => {
       take: limit,
     });
 
-    const totalPets = await prisma.mascota.count(); // Obtiene el total de mascotas
-    const totalPages = Math.ceil(totalPets / limit); // Calcula el total de páginas
+    const totalPets = await prisma.mascota.count(); 
+    const totalPages = Math.ceil(totalPets / limit);
 
     const baseUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 
@@ -35,8 +35,8 @@ export const getPets = async (req, res, next) => {
 export const getMyPets = async (req, res, next) => {
   console.log(req.authenticatedUser);
   try {
-    const page = parseInt(req.query.page) || 1; // La página actual, por defecto es 1
-    const limit = parseInt(req.query.limit) || 10; // El número de registros por página, por defecto es 10
+    const page = parseInt(req.query.page) || 1; 
+    const limit = parseInt(req.query.limit) || 10; 
     const skip = (page - 1) * limit;
 
     const tutor = await prisma.tutor.findFirst({
