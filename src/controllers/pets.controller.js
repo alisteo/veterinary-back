@@ -4,7 +4,7 @@ import { prisma } from '../db/mysql/index.js';
 
 export const getPets = async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page) || 1; 
+    const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
@@ -13,7 +13,7 @@ export const getPets = async (req, res, next) => {
       take: limit,
     });
 
-    const totalPets = await prisma.mascota.count(); 
+    const totalPets = await prisma.mascota.count();
     const totalPages = Math.ceil(totalPets / limit);
 
     const baseUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -33,10 +33,9 @@ export const getPets = async (req, res, next) => {
 };
 
 export const getMyPets = async (req, res, next) => {
-  console.log(req.authenticatedUser);
   try {
-    const page = parseInt(req.query.page) || 1; 
-    const limit = parseInt(req.query.limit) || 10; 
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
     const tutor = await prisma.tutor.findFirst({
@@ -239,7 +238,6 @@ export const createPet = async (req, res, next) => {
 
     res.status(201).json({ ok: true, pet });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
