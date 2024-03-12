@@ -2,10 +2,31 @@ import bcryptjs from 'bcryptjs';
 
 import { prisma } from '../db/mysql/index.js';
 
-export const getPets = async (_req, res, next) => {
+export const getPets = async (req, res, next) => {
   try {
-    const pets = await prisma.mascota.findMany();
-    res.status(200).json({ ok: true, pets });
+    const page = parseInt(req.query.page) || 1; // La página actual, por defecto es 1
+    const limit = parseInt(req.query.limit) || 10; // El número de registros por página, por defecto es 10
+    const skip = (page - 1) * limit;
+
+    const pets = await prisma.mascota.findMany({
+      skip: skip,
+      take: limit,
+    });
+
+    const totalPets = await prisma.mascota.count(); // Obtiene el total de mascotas
+    const totalPages = Math.ceil(totalPets / limit); // Calcula el total de páginas
+
+    const baseUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+
+    res.status(200).json({
+      ok: true,
+      count: totalPets,
+      next:
+        page < totalPages ? `${baseUrl}?page=${page + 1}&limit=${limit}` : null,
+      previous: page > 1 ? `${baseUrl}?page=${page - 1}&limit=${limit}` : null,
+      numero_paginas: totalPages,
+      data: pets,
+    });
   } catch (error) {
     next(error);
   }
@@ -14,6 +35,10 @@ export const getPets = async (_req, res, next) => {
 export const getMyPets = async (req, res, next) => {
   console.log(req.authenticatedUser);
   try {
+    const page = parseInt(req.query.page) || 1; // La página actual, por defecto es 1
+    const limit = parseInt(req.query.limit) || 10; // El número de registros por página, por defecto es 10
+    const skip = (page - 1) * limit;
+
     const tutor = await prisma.tutor.findFirst({
       where: {
         userId: req.authenticatedUser.id,
@@ -30,6 +55,8 @@ export const getMyPets = async (req, res, next) => {
       where: {
         tutorId: tutor.id,
       },
+      skip: skip,
+      take: limit,
       include: {
         Tutor: {
           include: {
@@ -62,7 +89,24 @@ export const getMyPets = async (req, res, next) => {
       },
     });
 
-    res.status(200).json({ ok: true, pets });
+    const totalPets = await prisma.mascota.count({
+      where: {
+        tutorId: tutor.id,
+      },
+    });
+    const totalPages = Math.ceil(totalPets / limit);
+
+    const baseUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+
+    res.status(200).json({
+      ok: true,
+      count: totalPets,
+      next:
+        page < totalPages ? `${baseUrl}?page=${page + 1}&limit=${limit}` : null,
+      previous: page > 1 ? `${baseUrl}?page=${page - 1}&limit=${limit}` : null,
+      numero_paginas: totalPages,
+      data: pets,
+    });
   } catch (error) {
     next(error);
   }
