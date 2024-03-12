@@ -1,6 +1,12 @@
 import { Router } from 'express';
 
-import { createPet, getPet, getPets, updatePet } from '../controllers/pets.controller.js';
+import {
+  createPet,
+  getMyPets,
+  getPet,
+  getPets,
+  updatePet,
+} from '../controllers/pets.controller.js';
 import {
   isAdminOrVeterinarian,
   protectWithJwt,
@@ -13,6 +19,8 @@ router
   .route('/')
   .post([protectWithJwt, isAdminOrVeterinarian, ...createPetRules()], createPet)
   .get([protectWithJwt, isAdminOrVeterinarian], getPets);
+
+router.route('/my-pets').get(protectWithJwt, getMyPets);
 
 router
   .route('/:id')

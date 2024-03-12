@@ -11,6 +11,63 @@ export const getPets = async (_req, res, next) => {
   }
 };
 
+export const getMyPets = async (req, res, next) => {
+  console.log(req.authenticatedUser);
+  try {
+    const tutor = await prisma.tutor.findFirst({
+      where: {
+        userId: req.authenticatedUser.id,
+      },
+    });
+
+    if (!tutor) {
+      return res
+        .status(404)
+        .json({ ok: false, message: 'Tutor no encontrado' });
+    }
+
+    const pets = await prisma.mascota.findMany({
+      where: {
+        tutorId: tutor.id,
+      },
+      include: {
+        Tutor: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                nombre: true,
+                identificacion: true,
+                direccion: true,
+                telefono: true,
+                email: true,
+              },
+            },
+          },
+        },
+        Responsable: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                nombre: true,
+                identificacion: true,
+                direccion: true,
+                telefono: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    res.status(200).json({ ok: true, pets });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getPet = async (req, res, next) => {
   const { id } = req.params;
 
