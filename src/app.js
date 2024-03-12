@@ -13,10 +13,15 @@ import {
   usersRouter,
   veterinariansRouter,
 } from './routes/index.js';
+import { createAdminUser } from './utils/create-admin.js';
 
-console.clear();
 // Initializations
 const app = express();
+
+// Create admin user if it doesn't exist
+(async () => {
+  await createAdminUser();
+})();
 
 // Middlewares
 setupMiddlewares(app);
