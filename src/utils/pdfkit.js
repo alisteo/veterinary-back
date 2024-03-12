@@ -17,7 +17,7 @@ export const buildPdfPet = (dataCallback, endCallback, pet) => {
   doc.moveDown();
 
   // mascota name
-  doc.fontSize(15).text(`${pet.nombre_mascota.toUpperCase()}`, {
+  doc.fontSize(15).text(`${pet?.nombre_mascota?.toUpperCase()}`, {
     align: 'center',
     bold: true,
   });
@@ -28,10 +28,10 @@ export const buildPdfPet = (dataCallback, endCallback, pet) => {
     headers: ['Responsable', 'Identificación', 'Dirección', 'Teléfono'],
     rows: [
       [
-        pet.Responsable.user.nombre,
-        pet.Responsable.user.identificacion,
-        pet.Responsable.user.direccion,
-        pet.Responsable.user.telefono,
+        pet?.Responsable?.user?.nombre,
+        pet?.Responsable?.user?.identificacion,
+        pet?.Responsable?.user?.direccion,
+        pet?.Responsable?.user?.telefono,
       ],
     ],
   };
@@ -40,10 +40,10 @@ export const buildPdfPet = (dataCallback, endCallback, pet) => {
     headers: ['Tutor', 'Identificación', 'Dirección', 'Teléfono'],
     rows: [
       [
-        pet.Tutor.user.nombre,
-        pet.Tutor.user.identificacion,
-        pet.Tutor.user.direccion,
-        pet.Tutor.user.telefono,
+        pet?.Tutor?.user?.nombre,
+        pet?.Tutor?.user?.identificacion,
+        pet?.Tutor?.user?.direccion,
+        pet?.Tutor?.user?.telefono,
       ],
     ],
   };
@@ -57,17 +57,17 @@ export const buildPdfPet = (dataCallback, endCallback, pet) => {
     ],
     rows: [
       [
-        pet.nombre_mascota,
-        pet.codigo_chip,
-        pet.lugar_implantacion,
-        new Date(pet.fecha_implantacion).toLocaleDateString('es-ES'),
+        pet?.nombre_mascota,
+        pet?.codigo_chip,
+        pet?.lugar_implantacion,
+        new Date(pet?.fecha_implantacion).toLocaleDateString('es-ES'),
       ],
     ],
   };
 
   const tableArr4 = {
     headers: ['Especie', 'Raza', 'Pedigree', 'Sexo'],
-    rows: [[pet.especie, pet.raza, pet.pedigree ? 'Sí' : 'No', pet.sexo]],
+    rows: [[pet?.especie, pet?.raza, pet?.pedigree ? 'Sí' : 'No', pet?.sexo]],
   };
 
   doc.table(tableArr1, {
