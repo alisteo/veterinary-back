@@ -19,9 +19,39 @@ export const getPet = async (req, res, next) => {
       where: {
         id: +id,
       },
+      include: {
+        Tutor: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                nombre: true,
+                identificacion: true,
+                direccion: true,
+                telefono: true,
+                email: true,
+              },
+            },
+          },
+        },
+        Responsable: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                nombre: true,
+                identificacion: true,
+                direccion: true,
+                telefono: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
     });
 
-    res.status(200).json({ ok: true, pet });
+    res.status(200).json(pet);
   } catch (error) {
     next(error);
   }
@@ -40,6 +70,7 @@ export const createPet = async (req, res, next) => {
     ubicacion,
     estado,
     tutorId,
+    observaciones,
   } = req.body;
 
   try {
@@ -77,7 +108,7 @@ export const createPet = async (req, res, next) => {
       tutor = await prisma.tutor.create({
         data: {
           userId: userTutor?.id,
-          observaciones: req.body.observaciones || '',
+          observaciones: observaciones || '',
         },
       });
     }
