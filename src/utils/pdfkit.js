@@ -23,6 +23,23 @@ export const buildPdfPet = (dataCallback, endCallback, pet) => {
   });
   doc.moveDown();
 
+  doc.fontSize(15).text(`Se implanto en: ${pet?.lugar_implantacion}`, {
+    align: 'center',
+  });
+  doc
+    .fontSize(15)
+    .text(
+      `El microchip con código: ${
+        pet?.codigo_chip
+      } fue implantado el: ${new Date(
+        pet?.fecha_implantacion
+      ).toLocaleDateString('es-ES')}`,
+      {
+        align: 'center',
+      }
+    );
+  doc.moveDown();
+
   // body
   const tableArr1 = {
     headers: ['Responsable', 'Identificación', 'Dirección', 'Teléfono'],
